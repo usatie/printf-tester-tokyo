@@ -6,7 +6,7 @@
 /*   By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 17:34:09 by susami            #+#    #+#             */
-/*   Updated: 2022/04/13 19:09:30 by susami           ###   ########.fr       */
+/*   Updated: 2022/04/13 19:13:11 by susami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,42 @@ void	ASSERT_EQ_UL(unsigned long actual, unsigned long expected,
 	if (actual != expected)
 	{
 		printf("%s failed: (\"%lu\") is not equal to expected (\"%lu\"). ",
+			__func__, actual, expected);
+		printf("func %s at file %s, line %d\n",
+			caller_func, caller_file, caller_line);
+	}
+}
+
+void	ASSERT_EQ_LL(long long actual, long long expected,
+	char *caller_file, const char *caller_func, int caller_line)
+{
+	if (actual != expected)
+	{
+		printf("%s failed: (\"%lli\") is not equal to expected (\"%lli\"). ",
+			__func__, actual, expected);
+		printf("func %s at file %s, line %d\n",
+			caller_func, caller_file, caller_line);
+	}
+}
+
+void	ASSERT_EQ_ULL(unsigned long long actual, unsigned long long expected,
+	char *caller_file, const char *caller_func, int caller_line)
+{
+	if (actual != expected)
+	{
+		printf("%s failed: (\"%llu\") is not equal to expected (\"%llu\"). ",
+			__func__, actual, expected);
+		printf("func %s at file %s, line %d\n",
+			caller_func, caller_file, caller_line);
+	}
+}
+
+void	ASSERT_EQ_SIZE(size_t actual, size_t expected,
+	char *caller_file, const char *caller_func, int caller_line)
+{
+	if (actual != expected)
+	{
+		printf("%s failed: (\"%zu\") is not equal to expected (\"%zu\"). ",
 			__func__, actual, expected);
 		printf("func %s at file %s, line %d\n",
 			caller_func, caller_file, caller_line);
