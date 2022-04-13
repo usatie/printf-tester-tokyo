@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helpers.h                                          :+:      :+:    :+:   */
+/*   libassert.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 07:52:22 by susami            #+#    #+#             */
-/*   Updated: 2022/04/13 19:06:44 by susami           ###   ########.fr       */
+/*   Updated: 2022/04/13 22:11:58 by susami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HELPERS_H
-# define HELPERS_H
+#ifndef LIBASSERT_H
+# define LIBASSERT_H
 # include <stdbool.h>
 # include <stdio.h>
 # include <unistd.h>
