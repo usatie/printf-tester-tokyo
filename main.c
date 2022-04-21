@@ -6,7 +6,7 @@
 /*   By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:17:52 by susami            #+#    #+#             */
-/*   Updated: 2022/04/13 23:24:01 by susami           ###   ########.fr       */
+/*   Updated: 2022/04/21 22:57:57 by susami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 int	ft_printf(char *format, ...);
 
@@ -22,57 +23,51 @@ int	ft_printf(char *format, ...)
 {
 	va_list	args;
 	va_start(args,format);
-	write(STDOUT_FILENO, "%", 1);
 	int ret = vprintf(format,args);
 	va_end(args);
 	return (ret);
 }
 
+#define F(...) ({\
+	fflush(stdout);\
+	char s[30];\
+	memset(s, ' ', 30);\
+	strcpy(s, "F(");\
+	strcpy(s + 2, #__VA_ARGS__);\
+	strcpy(s + 2 + strlen(#__VA_ARGS__), ")");\
+	printf("%-30s: stdout=[", s);\
+	fflush(stdout);\
+    int ret = _F(__VA_ARGS__);\
+	fflush(stdout);\
+	write(STDOUT_FILENO, "], ", 3);\
+	printf("ret=[%i]\n", ret);\
+	fflush(stdout);\
+})
+
 #ifdef FT_PRINTF
-# define F(format, ...) ({\
-	fflush(stdout);\
-	write(STDOUT_FILENO, "F(\"", 3);\
-	write(STDOUT_FILENO, format, strlen(format));\
-	write(STDOUT_FILENO, "\"): [", 5);\
-    int ret = ft_printf(format, __VA_ARGS__);\
-	fflush(stdout);\
-	write(STDOUT_FILENO, "]\n", 2);\
-	fflush(stdout);\
-	printf("returned: [%i]\n", ret);\
-	fflush(stdout);\
-})
+# define _F(...) ({ft_printf(__VA_ARGS__);})
 #else
-#define F(format, ...) ({\
-	fflush(stdout);\
-	write(STDOUT_FILENO, "F(\"", 3);\
-	write(STDOUT_FILENO, format, strlen(format));\
-	write(STDOUT_FILENO, "\"): [", 5);\
-    int ret = printf(format, __VA_ARGS__);\
-	fflush(stdout);\
-	write(STDOUT_FILENO, "]\n", 2);\
-	fflush(stdout);\
-	printf("returned: [%i]\n", ret);\
-	fflush(stdout);\
-})
+# define _F(...) ({printf(__VA_ARGS__);})
 #endif
+
+
+void	print_escape(char *str) {
+	while(*str) {
+		switch(isprint(*str)){
+			case 1:
+				write(STDOUT_FILENO, str, 1);
+				break;
+			default:
+				printf("\\%02x", *str);
+				fflush(stdout);
+				break;
+		}
+		str++;
+	}
+}
 
 int	main(void)
 {
-	/*
-	ASSERT_TRUE(true);
-	ASSERT_TRUE(false);
-	ASSERT_EQ_I(INT_MAX, INT_MIN);
-	ASSERT_EQ_I(10, 10);
-	ASSERT_EQ_UI(11, 13);
-	ASSERT_EQ_UI(3, 3);
-	ASSERT_EQ_L(LONG_MAX, LONG_MIN);
-	ASSERT_EQ_L(10, 10);
-	ASSERT_EQ_UL((unsigned long)LONG_MAX + 2, (unsigned long)LONG_MAX + 3);
-	ASSERT_EQ_UL(3, 3);
-	ASSERT_EQ_MEM("1234567890qwertyuiop", "1234567890asdfghjkl:", 21);
-	ASSERT_EQ_STR("1234567890qwertyuiop", "1234567890asdfghjkl:", 20);
-	*/
-
 	F("%s", "hello world");
 	F("%i", -42);
 	F("%d", -42);
