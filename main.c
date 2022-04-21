@@ -6,12 +6,12 @@
 /*   By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:17:52 by susami            #+#    #+#             */
-/*   Updated: 2022/04/21 22:57:57 by susami           ###   ########.fr       */
+/*   Updated: 2022/04/21 23:05:45 by susami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libassert.h"
 #include "stdarg.h"
+#include <unistd.h>
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>
@@ -24,6 +24,8 @@ int	ft_printf(char *format, ...)
 	va_list	args;
 	va_start(args,format);
 	int ret = vprintf(format,args);
+	if (strchr(format, 's'))
+		write(STDOUT_FILENO, "\\", 1);
 	va_end(args);
 	return (ret);
 }
@@ -49,22 +51,6 @@ int	ft_printf(char *format, ...)
 #else
 # define _F(...) ({printf(__VA_ARGS__);})
 #endif
-
-
-void	print_escape(char *str) {
-	while(*str) {
-		switch(isprint(*str)){
-			case 1:
-				write(STDOUT_FILENO, str, 1);
-				break;
-			default:
-				printf("\\%02x", *str);
-				fflush(stdout);
-				break;
-		}
-		str++;
-	}
-}
 
 int	main(void)
 {
