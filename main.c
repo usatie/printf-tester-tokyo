@@ -6,7 +6,7 @@
 /*   By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:17:52 by susami            #+#    #+#             */
-/*   Updated: 2022/04/21 23:05:45 by susami           ###   ########.fr       */
+/*   Updated: 2022/04/21 23:11:22 by susami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	ft_printf(char *format, ...)
 	va_list	args;
 	va_start(args,format);
 	int ret = vprintf(format,args);
-	if (strchr(format, 's'))
-		write(STDOUT_FILENO, "\\", 1);
 	va_end(args);
 	return (ret);
 }
