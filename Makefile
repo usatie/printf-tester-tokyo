@@ -1,15 +1,17 @@
 CC=gcc
 
+LIBFTDIR = ../libft
+LIBFT = $(LIBFTDIR)/libft.a
 
 all:
 	@printf -- \
 		"---------------------------------------Run the tests with standard printf...---------------------------------------\n"
-	$(CC) main.c
+	$(CC) main.c ft_printf.c $(LIBFT) -I $(LIBFTDIR)
 	./a.out >printf.log
 	@rm a.out
 	@printf -- \
 		"\n\n---------------------------------------Run the tests with your ft_printf...---------------------------------------\n"
-	$(CC) main.c -D FT_PRINTF
+	$(CC) main.c ft_printf.c $(LIBFT) -I $(LIBFTDIR) -D FT_PRINTF
 	./a.out >ft_printf.log
 	@rm a.out
 	@printf -- \

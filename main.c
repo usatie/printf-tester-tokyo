@@ -6,7 +6,7 @@
 /*   By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:17:52 by susami            #+#    #+#             */
-/*   Updated: 2022/04/22 08:57:49 by susami           ###   ########.fr       */
+/*   Updated: 2022/04/22 20:43:32 by susami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "ft_printf.h"
 
-int	ft_printf(char *format, ...);
-
-int	ft_printf(char *format, ...)
-{
-	va_list	args;
-	va_start(args,format);
-	int ret = vprintf(format,args);
-	va_end(args);
-	return (ret);
-}
 
 #define BUF_SIZE 1024
 #define FMT_WIDTH 50
@@ -58,9 +49,13 @@ int	main(void)
     F("hello world");
 	F("%c", 'h');
 	F("%s", "hello world");
+	F("%c %c", 'h', 'e');
 	F("%p", (void *)42);
+	F("%p", (void *)19827492);
 	F("%d", -42);
 	F("%i", -42);
+	F("%d", INT_MAX);
+	F("%i", INT_MIN);
 	F("%u", 42);
 	F("%x", 42);
 	F("%X", 42);
