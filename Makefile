@@ -1,9 +1,16 @@
-CC=gcc
+CC		=	gcc
+CFLAGS	=	-Wall -Werror -Wextra
 
 LIBFTDIR = ../libft
 LIBFT = $(LIBFTDIR)/libft.a
+SRCS	=	ft_printf.c
+OBJS	=	$(SRCS:%.c=%.o)
 
-all:
+all: $(OBJS)
+	gcc ft_printf.c -c
+	ar -rc libftprintf.a ft_printf.o
+
+test:
 	@printf -- \
 		"---------------------------------------Run the tests with standard printf...---------------------------------------\n"
 	$(CC) main.c ft_printf.c $(LIBFT) -I $(LIBFTDIR)
