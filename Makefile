@@ -1,29 +1,26 @@
+FT_PRINTFDIR = ..
+FT_PRINTF = $(FT_PRINTFDIR)/libftprintf.a
+
 CC		=	gcc
-CFLAGS	=	-Wall -Werror -Wextra
+CFLAGS	=	-I $(FT_PRINTFDIR)/include
 
-LIBFTDIR = ../libft
-LIBFT = $(LIBFTDIR)/libft.a
-SRCS	=	ft_printf.c
+SRCS	=	main.c
 OBJS	=	$(SRCS:%.c=%.o)
-
-all: $(OBJS)
-	gcc ft_printf.c -c
-	ar -rc libftprintf.a ft_printf.o
 
 test:
 	@printf -- \
 		"---------------------------------------Run the tests with standard printf...---------------------------------------\n"
-	$(CC) main.c ft_printf.c $(LIBFT) -I $(LIBFTDIR)
+	$(CC) $(SRCS) $(FT_PRINTF) $(CFLAGS)
 	./a.out >printf.log
 	@rm a.out
 	@printf -- \
 		"\n\n---------------------------------------Run the tests with your ft_printf...---------------------------------------\n"
-	$(CC) main.c ft_printf.c $(LIBFT) -I $(LIBFTDIR) -D FT_PRINTF
+	$(CC) $(SRCS) $(FT_PRINTF) $(CFLAGS) -D FT_PRINTF
 	./a.out >ft_printf.log
 	@rm a.out
 	@printf -- \
 		"\n\n---------------------------Compare the results by standard printf and your ft_printf...---------------------------\n"
-	@diff -U 3 ft_printf.log printf.log && \
+	@diff -U 0 ft_printf.log printf.log && \
 		printf -- \
 		"\e[32m\n\n------------------------------------------------------------------------------------------------------------------\
 		\nAll tests passed successfully! Congratulations :D\n\e[m" ||\
