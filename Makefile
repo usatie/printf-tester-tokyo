@@ -7,17 +7,18 @@ CFLAGS	=	-I $(FT_PRINTFDIR)/include
 SRCS	=	main.c
 OBJS	=	$(SRCS:%.c=%.o)
 
+.PHONY: test
 test:
 	@printf -- \
 		"---------------------------------------Run the tests with standard printf...---------------------------------------\n"
+	@rm -f a.out
 	$(CC) $(SRCS) $(FT_PRINTF) $(CFLAGS)
 	./a.out >printf.log
-	@rm a.out
 	@printf -- \
 		"\n\n---------------------------------------Run the tests with your ft_printf...---------------------------------------\n"
+	@rm -f a.out
 	$(CC) $(SRCS) $(FT_PRINTF) $(CFLAGS) -D FT_PRINTF
 	./a.out >ft_printf.log
-	@rm a.out
 	@printf -- \
 		"\n\n---------------------------Compare the results by standard printf and your ft_printf...---------------------------\n"
 	@diff -U 0 ft_printf.log printf.log && \
@@ -27,3 +28,4 @@ test:
 		printf -- \
 		"\e[31m\n\n------------------------------------------------------------------------------------------------------------------\
 		\nSome tests failed. Please see ft_printf.log and printf.log for more detailed information.\n\e[m"
+	@rm -f a.out
