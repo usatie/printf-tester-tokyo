@@ -6,7 +6,7 @@
 /*   By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:17:52 by susami            #+#    #+#             */
-/*   Updated: 2022/04/26 19:05:33 by susami           ###   ########.fr       */
+/*   Updated: 2022/04/26 23:11:49 by susami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@
 	printf("%-*s: stdout=[", FMT_WIDTH, buf);\
     int ret = _F(__VA_ARGS__);\
 	write(STDOUT_FILENO, "], ", 3);\
-	printf("ret=[%i]\n", ret);\
+	printf("ret=[%i]", ret);\
+	if (ret < 0)\
+		printf(", \e[31merrno=[%i]\e[0m", errno);\
+	printf("\n");\
+	errno = 0;\
 })
 #ifdef FT_PRINTF
 # define _F(...) ft_printf(__VA_ARGS__);
@@ -67,12 +71,15 @@ int	main(void)
     F("%c %s %p %d %i %u %x %X", 'h', "hello world", (void *)42, -42, -42, 42, 42, 42);
 
 	size_t n = INT_MAX;
-	n += 10;
+	n += 5;
 	char *very_long_str;
 	very_long_str = malloc(sizeof(char) * (n + 1));
 	memset(very_long_str, 'a', n);
 	very_long_str[n] = '\0';
 	F("%s", very_long_str);
+	F("hello world%s", very_long_str);
+	F("hello world%s", very_long_str + 10);
+	F(very_long_str);
 	// Fails because of buffering
 	// F("hoge:%s", very_long_str);
 	
@@ -246,5 +253,42 @@ int	main(void)
 	F("%.i", 0);
 	F("%.20i", 0);
 	F("%20.10i", 42);
+
+	F("%.50i", 42);
+	F("%.100i", 42);
+	F("%30000000000000i", 42);
+	F("%.30000000000000i", 42);
+	F("%4294967284i", 42);
+	F("%.4294967284i", 42);
+	F("%4294967304i", 42);
+	F("%.4294967304i", 42);
+
+	F("%.50x", 42);
+	F("%.100x", 42);
+	F("%30000000000000x", 42);
+	F("%.30000000000000x", 42);
+	F("%4294967284x", 42);
+	F("%.4294967284x", 42);
+	F("%4294967304x", 42);
+	F("%.4294967304x", 42);
+
+	F("%#.50x", 42);
+	F("%#.100x", 42);
+	F("%#30000000000000x", 42);
+	F("%#.30000000000000x", 42);
+	F("%#4294967284x", 42);
+	F("%#.4294967284x", 42);
+	F("%#4294967304x", 42);
+	F("%#.4294967304x", 42);
+
+	F("%30000000000000s", "hello");
+	F("%.30000000000000s", "hello");
+	F("%4294967284s", "hello");
+	F("%.4294967284s", "hello");
+	F("%4294967304s", "hello");
+	F("%.4294967304s", "hello");
+
+	F("hello%.2147483647i", 42);
+	//F(NULL);
 	return (0);
 }
