@@ -6,7 +6,7 @@
 /*   By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:17:52 by susami            #+#    #+#             */
-/*   Updated: 2022/04/26 23:11:49 by susami           ###   ########.fr       */
+/*   Updated: 2022/04/28 10:10:39 by susami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	main(void)
     F("%c %s", 'h', "hello world");
     F("%c %s %p %d %i %u %x %X", 'h', "hello world", (void *)42, -42, -42, 42, 42, 42);
 
+	/* SLOW OVERFLOW tests
 	size_t n = INT_MAX;
 	n += 5;
 	char *very_long_str;
@@ -77,12 +78,14 @@ int	main(void)
 	memset(very_long_str, 'a', n);
 	very_long_str[n] = '\0';
 	F("%s", very_long_str);
-	F("hello world%s", very_long_str);
-	F("hello world%s", very_long_str + 10);
-	F(very_long_str);
+	// Warning because of non literal format
+	// F(very_long_str);
 	// Fails because of buffering
-	// F("hoge:%s", very_long_str);
-	
+	F("hello world%s", very_long_str);
+
+	// outputs too many string so don't run this line.
+	//F("hello world%s", very_long_str + 10);
+	*/
 
 	// Bonus Part Test cases
 	F("%20s", "hello world");
@@ -290,5 +293,7 @@ int	main(void)
 
 	F("hello%.2147483647i", 42);
 	//F(NULL);
+	/*
+	*/
 	return (0);
 }
