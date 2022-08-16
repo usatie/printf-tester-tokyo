@@ -6,7 +6,7 @@
 /*   By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:17:52 by susami            #+#    #+#             */
-/*   Updated: 2022/04/28 11:12:57 by susami           ###   ########.fr       */
+/*   Updated: 2022/08/16 16:36:43 by susami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <errno.h>
 #include "ft_printf.h"
-
 
 #define BUF_SIZE 1024
 #define FMT_WIDTH 50
@@ -42,7 +42,6 @@
 #else
 # define _F(...) printf(__VA_ARGS__);
 #endif
-
 
 int	main(void)
 {
