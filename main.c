@@ -6,7 +6,7 @@
 /*   By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:17:52 by susami            #+#    #+#             */
-/*   Updated: 2022/09/02 19:07:34 by susami           ###   ########.fr       */
+/*   Updated: 2022/09/02 22:46:53 by susami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,9 @@ int	main(void)
 	F("%x", 42);
 	F("%X", 42);
 	F("%f", (float)42.0);
+	F("%lf", 42.0);
     F("%c %s", 'h', "hello world");
-    F("%c %s %p %d %i %u %x %X %f", 'h', "hello world", (void *)42, -42, -42, 42, 42, 42, (float)42.0);
+    F("%c %s %p %d %i %u %x %X %f %lf", 'h', "hello world", (void *)42, -42, -42, 42, 42, 42, (float)42.0, 42.0);
 
 	/* SLOW OVERFLOW tests
 	size_t n = INT_MAX;
@@ -311,6 +312,18 @@ int	main(void)
 	F("%#.4294967284f", OneSeventh);
 	F("%#4294967304f", OneSeventh);
 	F("%#.4294967304f", OneSeventh);
+
+	double OneSeventhd = 1.0/7.0;
+	F("%lf", 0.99999999);
+	F("%lf", OneSeventhd);
+	F("%#.50lf", OneSeventhd);
+	F("%#.100lf", OneSeventhd);
+	F("%#30000000000000lf", OneSeventhd);
+	F("%#.30000000000000lf", OneSeventhd);
+	F("%#4294967284lf", OneSeventhd);
+	F("%#.4294967284lf", OneSeventhd);
+	F("%#4294967304lf", OneSeventhd);
+	F("%#.4294967304lf", OneSeventhd);
 
 	F("%30000000000000s", "hello");
 	F("%.30000000000000s", "hello");
