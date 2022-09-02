@@ -6,7 +6,7 @@
 /*   By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:17:52 by susami            #+#    #+#             */
-/*   Updated: 2022/08/16 16:36:43 by susami           ###   ########.fr       */
+/*   Updated: 2022/09/02 19:07:34 by susami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@
 #define F(...) ({\
 	char buf[BUF_SIZE];\
 	bzero(buf, BUF_SIZE);\
-	strcpy(buf, "F(");\
-	strcpy(buf + 2, #__VA_ARGS__);\
-	strcpy(buf + 2 + strlen(#__VA_ARGS__), ")");\
+	sprintf(buf, "F(%s)", #__VA_ARGS__);\
 	printf("%-*s: stdout=[", FMT_WIDTH, buf);\
+	bzero(buf, BUF_SIZE);\
     int ret = _F(__VA_ARGS__);\
 	write(STDOUT_FILENO, "], ", 3);\
 	printf("ret=[%i]", ret);\
@@ -39,6 +38,24 @@
 })
 #ifdef FT_PRINTF
 # define _F(...) ft_printf(__VA_ARGS__);
+#elif defined SPRINTF
+# define _F(...) ({\
+	int retval;\
+	char buf[BUF_SIZE];\
+	bzero(buf, BUF_SIZE);\
+	retval = sprintf(buf, __VA_ARGS__);\
+	write(STDOUT_FILENO, buf, strlen(buf));\
+	retval;\
+})
+#elif defined FT_SPRINTF
+# define _F(...) ({\
+	int retval;\
+	char buf[BUF_SIZE];\
+	bzero(buf, BUF_SIZE);\
+	retval = ft_sprintf(buf, __VA_ARGS__);\
+	write(STDOUT_FILENO, buf, strlen(buf));\
+	retval;\
+})
 #else
 # define _F(...) printf(__VA_ARGS__);
 #endif
@@ -66,8 +83,9 @@ int	main(void)
 	F("%u", 42);
 	F("%x", 42);
 	F("%X", 42);
+	F("%f", (float)42.0);
     F("%c %s", 'h', "hello world");
-    F("%c %s %p %d %i %u %x %X", 'h', "hello world", (void *)42, -42, -42, 42, 42, 42);
+    F("%c %s %p %d %i %u %x %X %f", 'h', "hello world", (void *)42, -42, -42, 42, 42, 42, (float)42.0);
 
 	/* SLOW OVERFLOW tests
 	size_t n = INT_MAX;
@@ -282,6 +300,17 @@ int	main(void)
 	F("%#.4294967284x", 42);
 	F("%#4294967304x", 42);
 	F("%#.4294967304x", 42);
+
+	float OneSeventh = 1.0/7.0;
+	F("%f", OneSeventh);
+	F("%#.50f", OneSeventh);
+	F("%#.100f", OneSeventh);
+	F("%#30000000000000f", OneSeventh);
+	F("%#.30000000000000f", OneSeventh);
+	F("%#4294967284f", OneSeventh);
+	F("%#.4294967284f", OneSeventh);
+	F("%#4294967304f", OneSeventh);
+	F("%#.4294967304f", OneSeventh);
 
 	F("%30000000000000s", "hello");
 	F("%.30000000000000s", "hello");
