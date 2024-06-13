@@ -2,7 +2,7 @@ FT_PRINTFDIR = ..
 FT_PRINTF = $(FT_PRINTFDIR)/libftprintf.a
 
 CC		=	gcc
-CFLAGS	=	-I $(FT_PRINTFDIR)/include
+CFLAGS	=	-Wno-format 
 
 SRCS	=	main.c
 OBJS	=	$(SRCS:%.c=%.o)
