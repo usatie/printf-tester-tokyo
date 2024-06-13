@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stdarg.h"
+#include <stdarg.h>
 #include <unistd.h>
 #include <limits.h>
 #include <stdio.h>
@@ -18,7 +18,6 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <errno.h>
-#include "ft_printf.h"
 
 #define BUF_SIZE 1024
 #define FMT_WIDTH 50
@@ -38,6 +37,7 @@
 	errno = 0;\
 })
 #ifdef FT_PRINTF
+int ft_printf(const char *format, ...);
 # define _F(...) ft_printf(__VA_ARGS__);
 #else
 # define _F(...) printf(__VA_ARGS__);
